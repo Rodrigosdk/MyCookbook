@@ -1,28 +1,25 @@
-name: Sonar Build
+name: SonarCloud
 on:
   push:
     branches:
+      - main
       - develop
       - '**-sonar'
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   build:
-    name: Build
+    name: Build and analyze
     runs-on: windows-latest
     steps:
       - name: Set up JDK 11
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
-          java-version: 1.11
-          
-      - uses: actions/checkout@v2
+          java-version: 11
+          distribution: 'zulu' # Alternative distribution options are available.
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      
-      - name: Setup .Net 6
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 6.0.x
-          
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
@@ -49,5 +46,5 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Rodrigosdk_MyCookbook" /o:"rodrigosdk" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
+           dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover -l trx
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
