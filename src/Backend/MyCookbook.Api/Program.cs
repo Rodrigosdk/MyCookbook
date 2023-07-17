@@ -1,3 +1,6 @@
+using MyCookbook.Infrastructure;
+using MyCookbook.Infrastructure.Migrations;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddRepository(configurationManager: builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,4 +26,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+updateDatabase();
+
 app.Run();
+
+void updateDatabase()
+{
+    var nameDatabase = builder.Configuration.GetConnectionString("NameDatabase");
+    var connectionDatabase = builder.Configuration.GetConnectionString("Connection");
+    Database.createDatabase(nameDatabase:nameDatabase, databaseConnection:connectionDatabase);
+    app.MigrateDataBase();
+}
