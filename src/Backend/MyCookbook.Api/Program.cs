@@ -26,4 +26,14 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+updateDatabase();
+
 app.Run();
+
+void updateDatabase()
+{
+    var nameDatabase = builder.Configuration.GetConnectionString("NameDatabase");
+    var connectionDatabase = builder.Configuration.GetConnectionString("Connection");
+    Database.createDatabase(nameDatabase:nameDatabase, databaseConnection:connectionDatabase);
+    app.MigrateDataBase();
+}
