@@ -1,15 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\MyCookbook.Communication\MyCookbook.Communication.csproj" />
     <ProjectReference Include="..\..\Shared\MyCookbook.Exceptions\MyCookbook.Exceptions.csproj" />
     <ProjectReference Include="..\MyCookbook.Domain\MyCookbook.Domain.csproj" />
   </ItemGroup>
-
 </Project>
