@@ -6,6 +6,6 @@ public interface IUsersRepository
 {
     Task Create(UserEntity user);
 
-    Task<bool> CheckEmailExists(UserEntity user);
+    Task<bool> CheckEmailExists(string user);
 
 }
