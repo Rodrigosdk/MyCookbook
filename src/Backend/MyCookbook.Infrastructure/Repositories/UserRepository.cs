@@ -9,9 +9,9 @@ namespace MyCookbook.Infrastructure.Repositories
     {
         private readonly DataContext _context = context;
 
-        public async Task<bool> CheckEmailExists(UserEntity user)
+        public async Task<bool> CheckEmailExists(string user)
         {
-            return await _context.Users.AnyAsync(data => data.Email == user.Email);
+            return await _context.Users.AnyAsync(data => data.Email == user);
         }
 
         public async Task Create(UserEntity user)
