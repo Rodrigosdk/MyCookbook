@@ -1,6 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using MyCookbook.Api.Filters;
+using MyCookbook.Aplication.Services.AutoMapper;
 using MyCookbook.Infrastructure;
 using MyCookbook.Infrastructure.Database;
+using MyCookbook.Aplication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +13,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddRepository(builder.Configuration);
+builder.Services.AddApplication(builder.Configuration);
+
+builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilters)));
+builder.Services.AddScoped(provider => new AutoMapper.MapperConfiguration(cfg => cfg.AddProfile(new AutoMapperConfiguration())).CreateMapper());
 
 var app = builder.Build();
 
